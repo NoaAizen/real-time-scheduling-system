@@ -153,6 +153,12 @@ public:
     void markCurrentTaskRan();
     int getRemainingTime(int taskNum);
     int getDidRunInCycle(int taskNum);
+    int getPeriod(int taskNum);
+    // Base priority is derived from the period; current priority is reserved
+    // for later priority-inheritance work.
+    int getPriority(int taskNum);
+    int getCurrentPriority(int taskNum);
+    void setCurrentPriority(int taskNum, int priority);
 };
 
 extern unsigned getTimerClocks();
@@ -167,6 +173,10 @@ int roundRobin();
 // Part 1 scheduling policy: earliest deadline among READY tasks.
 int EDF();
 
+// Part 2 Stage 1 policy: select the READY task with the highest RMS priority.
+int RMS();
+
 extern Parallelism SMARTS;
 
 #endif
+

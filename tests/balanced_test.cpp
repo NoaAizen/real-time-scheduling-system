@@ -2,7 +2,7 @@
 #include "task_workloads.h"
 
 // Balanced configuration from the Part 1 application.
-// Select roundRobin (provided) or EDF (Part 1), then rebuild this scenario.
+// Select roundRobin, EDF, or RMS, then rebuild this scenario.
 #ifndef PART1_SCHEDULER
 #define PART1_SCHEDULER roundRobin
 #endif

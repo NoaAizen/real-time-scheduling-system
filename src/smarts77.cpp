@@ -59,6 +59,10 @@ int Parallelism::declareTask(void far* code, char name, int period, int numOfPer
 
         context[totalTasks].didRunInCycle = 0;
 
+        // RMS base priority: a shorter period has a higher priority.
+        context[totalTasks].priority = period;
+        context[totalTasks].currentPriority = period;
+
         totalTasks++;
         activeTasks++;
         return true;
@@ -149,7 +153,7 @@ void Parallelism::setDeadlock()
     deadlock = true;
 }
 
-// Re-enable switching and service a previously recorded scheduling request.
+// Re-enable switching for the current task and service a deferred request.
 int Parallelism::contextSwitchOn()
 
 {
@@ -389,6 +393,26 @@ int Parallelism::getDidRunInCycle(int taskNum)
     return context[taskNum].didRunInCycle;
 }
 
+int Parallelism::getPeriod(int taskNum)
+{
+    return context[taskNum].period;
+}
+
+int Parallelism::getPriority(int taskNum)
+{
+    return context[taskNum].priority;
+}
+
+int Parallelism::getCurrentPriority(int taskNum)
+{
+    return context[taskNum].currentPriority;
+}
+
+void Parallelism::setCurrentPriority(int taskNum, int priority)
+{
+    context[taskNum].currentPriority = priority;
+}
+
 Task::Task()
 {
     stack[MaxStack - 14] = _BP;
@@ -472,3 +496,4 @@ void Task::reDeclare()
 
     status = READY;
 }
+

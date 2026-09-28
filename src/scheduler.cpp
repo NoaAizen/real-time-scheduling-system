@@ -44,3 +44,23 @@ int EDF()
     }
     return best;
 }
+
+// Part 2 Stage 1: select the READY task with the shortest-period priority.
+// currentPriority initially equals the period and is retained for later
+// priority-inheritance work.
+int RMS()
+{
+    int best = SMARTS.getTotalTasks();
+    int minPriority = MAXINT;
+
+    for (int i = 0; i < SMARTS.getTotalTasks(); i++)
+    {
+        if (SMARTS.getStatus(i) == READY &&
+            SMARTS.getCurrentPriority(i) < minPriority)
+        {
+            minPriority = SMARTS.getCurrentPriority(i);
+            best = i;
+        }
+    }
+    return best;
+}

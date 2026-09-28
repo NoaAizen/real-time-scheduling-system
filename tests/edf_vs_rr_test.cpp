@@ -1,8 +1,8 @@
 #include "smarts77.h"
 #include "task_workloads.h"
 
-// Different-deadline configuration for comparing EDF and Round Robin.
-// Select roundRobin (provided) or EDF (Part 1), then rebuild this scenario.
+// Different-deadline configuration for comparing scheduling policies.
+// Select roundRobin, EDF, or RMS, then rebuild this scenario.
 #ifndef PART1_SCHEDULER
 #define PART1_SCHEDULER roundRobin
 #endif
