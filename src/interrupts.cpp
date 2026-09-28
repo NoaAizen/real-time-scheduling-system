@@ -7,7 +7,6 @@ Parallelism SMARTS;
 static unsigned StackSegAct, StackPtrAct;
 
 // Handle hardware ticks and software scheduling requests.
-// Preserve the Part 1 baseline: no deferred-switch branch is enabled here.
 void far interrupt timerInterruptHandler(...)
 
 {
@@ -34,6 +33,12 @@ void far interrupt timerInterruptHandler(...)
         asm    mov    ss,ax
         asm    mov    sp,StackPtrAct
     }
+    else
+    {
+        // Switch when this task next permits it.
+        SMARTS.setEndOfTimeSlice();
+        ++SMARTS.TScount;
+    }
 
 }
 
@@ -50,7 +55,8 @@ void scheduler( )
         SMARTS.sleepTasks==0 && SMARTS.activeTasks>0)
     {
         for (i=SMARTS.getTotalTasks()-1; i >= 0 ; --i)
-            if (SMARTS.getStatus(i) == SUSPENDED)
+            if (SMARTS.getStatus(i) == SUSPENDED &&
+                SMARTS.getDidRunInCycle(i) == 0)
             {
                 cprintf("\ntask %c  is suspended",SMARTS.getName(i)) ;
                 SMARTS.setDeadlock();

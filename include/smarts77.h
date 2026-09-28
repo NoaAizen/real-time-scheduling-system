@@ -53,6 +53,8 @@ public:
     taskStatus status;
     Event* expectedEvent;
     int sleepCount;
+    // Each task preserves its own deferred context-switch state.
+    int contextSwitchFlag;
 
     // Period and relative deadline use hardware timer ticks.
     int period;
@@ -89,7 +91,6 @@ private:
     int currentTask;
     int deadlock;
     int progInt;
-    int contextSwitchFlag;
     int endOfTimeSlice;
 
     void interrupt(*timerInterruptHandler)(...);
@@ -193,5 +194,6 @@ public:
 extern Parallelism SMARTS;
 
 #endif
+
 
 

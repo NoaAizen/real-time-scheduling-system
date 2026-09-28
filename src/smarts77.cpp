@@ -24,7 +24,6 @@ Parallelism::Parallelism()
     activeTasks = 0;
     totalTasks = 0;
     deadlock = false;
-    contextSwitchFlag = true;
     endOfTimeSlice = true;
 }
 
@@ -160,11 +159,11 @@ int Parallelism::contextSwitchOn()
     if (endOfTimeSlice)
     {
         endOfTimeSlice = false;
-        contextSwitchFlag = true;
+        context[currentTask].contextSwitchFlag = true;
         callScheduler();
         return 1;
     }
-    contextSwitchFlag = true;
+    context[currentTask].contextSwitchFlag = true;
     return 0;
 }
 
@@ -172,12 +171,12 @@ int Parallelism::contextSwitchOn()
 void Parallelism::contextSwitchOff()
 
 {
-    contextSwitchFlag = false;
+    context[currentTask].contextSwitchFlag = false;
 }
 
 int Parallelism::getContextSwitch()
 {
-    return contextSwitchFlag;
+    return context[currentTask].contextSwitchFlag;
 }
 
 void Parallelism::setProgInt()
@@ -429,6 +428,7 @@ Task::Task()
     status = NOT_ACTIVE;
     sleepCount = 0;
     currentPriority = priority = 0;
+    contextSwitchFlag = true;
 }
 
 // Save entry points used both for initial execution and periodic reactivation.
@@ -496,4 +496,3 @@ void Task::reDeclare()
 
     status = READY;
 }
-
