@@ -1,7 +1,12 @@
 #include "smarts77.h"
 
-Mutex firstResource;
-Mutex secondResource;
+// Set to 0 for the original no-inheritance mode or 1 for direct inheritance.
+#ifndef USE_INHERITANCE
+#define USE_INHERITANCE 0
+#endif
+
+Mutex firstResource(USE_INHERITANCE);
+Mutex secondResource(USE_INHERITANCE);
 
 Event wakeHighTask1;
 Event wakeLowTask1;
@@ -120,6 +125,7 @@ void main()
     }
 
     fprintf(myOutput, "=== TWO RESOURCES PRIORITY INVERSION TEST ===\n");
+    fprintf(myOutput, "USE_INHERITANCE = %d\n\n", USE_INHERITANCE);
 
     SMARTS.externalFunctions(timerInterruptHandler, scheduler, myTaskEnd, RMS);
     SMARTS.declareTask(highTask1, 'H', 400, 1);
@@ -135,4 +141,3 @@ void main()
     fprintf(myOutput, "\n=== END ===\n");
     fclose(myOutput);
 }
-

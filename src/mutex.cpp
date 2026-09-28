@@ -8,11 +8,22 @@ Mutex::Mutex()
     value = 1;
     owner = -1;
     waitingCount = 0;
+    inheritanceEnabled = 0;
 
     for (int i = 0; i < MaxTask; i++)
         waitingTasks[i] = -1;
 }
 
+Mutex::Mutex(int inheritance)
+{
+    value = 1;
+    owner = -1;
+    waitingCount = 0;
+    inheritanceEnabled = inheritance;
+
+    for (int i = 0; i < MaxTask; i++)
+        waitingTasks[i] = -1;
+}
 
 // Prevent a timer-driven context switch while mutex state is updated.
 void Mutex::Acquire()
@@ -30,6 +41,16 @@ void Mutex::Acquire()
         return;
     }
 
+    // Direct inheritance only: the owner receives a blocked higher priority.
+    if (inheritanceEnabled && owner != -1 &&
+        SMARTS.getCurrentPriority(currentTask) <
+        SMARTS.getCurrentPriority(owner))
+    {
+        SMARTS.setCurrentPriority(owner,
+            SMARTS.getCurrentPriority(currentTask));
+        cout << "\nPriority inheritance: Task " << owner
+             << " inherits priority of Task " << currentTask;
+    }
 
     cout << "\nTask " << currentTask << " blocked";
     waitingTasks[waitingCount++] = currentTask;
@@ -52,6 +73,9 @@ void Mutex::Release()
 
     cout << "\nTask " << currentTask << " released mutex";
 
+    if (inheritanceEnabled)
+        SMARTS.setCurrentPriority(currentTask,
+            SMARTS.getPriority(currentTask));
 
     if (waitingCount == 0)
     {
@@ -92,4 +116,3 @@ int Mutex::getHighestPriorityTask()
     }
     return bestIndex;
 }
-

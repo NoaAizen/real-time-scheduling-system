@@ -177,7 +177,7 @@ int EDF();
 // Part 2 Stage 1 policy: select the READY task with the highest RMS priority.
 int RMS();
 
-// Part 2 mutual exclusion without priority inheritance.
+// Part 2 mutual exclusion with optional direct priority inheritance.
 class Mutex
 {
 private:
@@ -185,15 +185,15 @@ private:
     int owner;
     int waitingTasks[MaxTask];
     int waitingCount;
+    int inheritanceEnabled;
 public:
     Mutex();
+    Mutex(int inheritance);
     void Acquire();
     void Release();
     int getHighestPriorityTask();
 };
+
 extern Parallelism SMARTS;
 
 #endif
-
-
-
