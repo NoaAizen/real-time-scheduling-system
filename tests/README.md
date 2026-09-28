@@ -1,10 +1,9 @@
 # Part 1 and Part 2 scheduling scenarios
 
-These programs extract the three configurations already present in
-`original-part1/APP77.CPP`. They use the same A, B, and C workloads and retain
-the original Part 1 runtime behavior except for the lifecycle correction
-documented below and the RMS support described here. These scenarios have not
-been compiled or executed in the original DOS toolchain.
+These programs extract the supplied Part 1 and Part 2 configurations into
+separate manual scenarios. They retain the clean runtime behavior, including
+the Part 1 lifecycle correction and Part 2 RMS and synchronization support.
+They have not been compiled or executed in the original DOS toolchain.
 
 ## Attribution and scope
 
@@ -90,10 +89,8 @@ tests/<one scenario file>.cpp
 Select exactly one scenario file. Each defines its own `main()`.
 The two priority-inversion scenarios are self-contained and do not use
 `tests/task_workloads.cpp`.
-Use an explicit source list: exclude `original-part1/` and the existing
-version-suffixed working files. Also exclude `src/EVENT77.CPP`, which duplicates
-the event implementation in `src/events.cpp`. Do not compile all source files
-through a wildcard.
+Use an explicit source list and exclude `original-part1/` and
+`original-part2/`. Do not compile all source files through a wildcard.
 
 ## Part 1 lifecycle correction
 
@@ -107,14 +104,12 @@ through a wildcard.
 
 ## Deliberately preserved behavior
 
-- The disabled deferred-switch branch in the original interrupt handler remains
-  disabled. Its commented statements were omitted from the clean copy, without
-  enabling a replacement.
 - Deadline failure still prints a message, waits in `getch()`, and calls
   `exit(1)` from timer processing. It does not use the normal return path that
   restores interrupt vectors.
-- Task reactivation, the global context-switch flag, scheduler selection rules,
-  workload output, and delay loops retain their Part 1 implementations.
+- Task reactivation, scheduler selection rules, workload output, and delay
+  loops retain their academic implementations. Part 2 adds per-task
+  context-switch control for synchronization.
 
 These issues remain outside the lifecycle correction made during project
 organization.
