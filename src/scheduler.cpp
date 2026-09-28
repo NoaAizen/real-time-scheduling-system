@@ -19,3 +19,28 @@ int roundRobin()
     return nextTask;
 }
 
+// Part 1 implementation: select the READY task with the earliest deadline.
+// Strict comparison preserves declaration order for equal eligible deadlines.
+int EDF()
+{
+
+    int best = SMARTS.getTotalTasks();
+
+    int min = MAXINT;
+
+    for (int i = 0; i < SMARTS.getTotalTasks(); i++)
+    {
+
+        if (SMARTS.getStatus(i) == READY)
+        {
+
+            if (SMARTS.getRemainingTime(i) < min)
+            {
+                min = SMARTS.getRemainingTime(i);
+
+                best = i;
+            }
+        }
+    }
+    return best;
+}

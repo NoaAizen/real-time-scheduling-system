@@ -164,8 +164,9 @@ void myTaskEnd();
 // Provided SMARTS77 scheduling policy.
 int roundRobin();
 
+// Part 1 scheduling policy: earliest deadline among READY tasks.
+int EDF();
 
 extern Parallelism SMARTS;
 
 #endif
-
