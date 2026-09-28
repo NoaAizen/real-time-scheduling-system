@@ -1,0 +1,20 @@
+# Build outputs
+*.obj
+*.o
+*.exe
+*.com
+*.map
+*.tds
+*.pdb
+*.ilk
+*.d
+
+# IDE and editor files
+.vs/
+.vscode/
+*.suo
+*.user
+*.userossc
+*.swp
+*.swo
+*~
