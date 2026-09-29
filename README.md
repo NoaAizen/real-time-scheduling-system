@@ -1,7 +1,7 @@
-# Real Time Scheduling System: framework reference
+# Real Time Scheduling System: periodic tasks
 
-Reconstructed reference containing the provided SMARTS77 framework and
-Round Robin, with one-shot task completion and no periodic scheduling.
+Periodic tasks, deadline accounting, finite execution cycles, and reactivation
+at period boundaries, using the provided Round Robin scheduler.
 
 ## Attribution
 
@@ -12,20 +12,21 @@ Round Robin is provided framework code, not a project implementation.
 
 ## Branch scope and dependencies
 
-This internal baseline supplies task contexts, interrupts, Events, sleeping,
-Round Robin, and global context-switch controls. Feature additions are separate.
+Requires only the reconstructed framework reference. EDF, RMS, mutexes,
+and per-task switching enhancements are not included.
 
 This is a reconstructed feature demonstration, not a claim about the original
 development order. The complete public project remains on `main` at `db11cde`.
 
-Intended comparison base: `ece9e26`.
+Intended comparison base: `ea0a6c85a6ad95d196d2976bb9eb5a8823c4ab11`.
 
 ```text
-git diff ece9e26...HEAD
+git diff ea0a6c85a6ad95d196d2976bb9eb5a8823c4ab11...HEAD
 ```
 
-Source provenance: `ece9e26` and the framework portions of `0fe2d4c`; periodic and EDF additions
-are excluded from the reconstructed source tree.
+Source provenance: periodic runtime and lifecycle correction from `0fe2d4c`; `getPeriod()`
+from `a4d43e1`; periodic deadlock eligibility from `13b6ee2`; workload
+configurations from `91231fb` and consolidated workloads from `db11cde`.
 
 ## Structure and build
 

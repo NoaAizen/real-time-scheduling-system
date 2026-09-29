@@ -40,7 +40,7 @@ public:
     void reset();
 };
 
-// Provided SMARTS77 task context.
+// Framework task context, extended with Part 1 periodic-task state.
 class Task
 {
 public:
@@ -54,13 +54,29 @@ public:
     Event* expectedEvent;
     int sleepCount;
 
+    // Period and relative deadline use hardware timer ticks.
+    int period;
+
+    int remainingTime;
+
+    // Requested cycles, remaining cycles, and completion of the current cycle.
+    int numOfPeriod;
+
+    int numOfPeriodRemaining;
+
+    int didRunInCycle;
+
     Task();
     void declare(void far* code, void far* taskEnd, char name);
     void sleepDecr();
     void incrPriority();
     void setOriginalPriority();
 
-
+    // Part 1: rebuild the initial task context for its next period.
+    void reDeclare();
+    // Preserve entry points for task reactivation.
+    void far* taskCode;
+    void far* taskEndCode;
 };
 
 class Parallelism
@@ -94,8 +110,8 @@ public:
     void externalFunctions(void interrupt(*timerInterruptHandler)(...),
         void far* scheduler, void far* userTaskEnd,
         int far(*algorithm)());
-    // Declare a task that runs once.
-    int declareTask(void far* code, char name);
+    // Part 1: declare a periodic task with a finite number of cycles.
+    int declareTask(void far* code, char name, int period, int numOfPeriods);
     void runTheTasks();
     void callScheduler();
     void restoreSchedStack();
@@ -130,10 +146,14 @@ public:
     void getCurrentStack(unsigned& StackSeg, unsigned& StackPtr);
     void setCurrentStack(unsigned StackSeg, unsigned StackPtr);
     void getSchedStack(unsigned& StackSeg, unsigned& StackPtr);
-    // Update sleeping tasks on each hardware tick.
+    // Update sleep timers and Part 1 deadlines on each hardware tick.
     void handleTimers();
     void taskEnd();
-
+    // Part 1 completion helper called by taskEnd() for the current cycle.
+    void markCurrentTaskRan();
+    int getRemainingTime(int taskNum);
+    int getDidRunInCycle(int taskNum);
+    int getPeriod(int taskNum);
 };
 
 extern unsigned getTimerClocks();

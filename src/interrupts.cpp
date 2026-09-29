@@ -50,7 +50,8 @@ void scheduler( )
         SMARTS.sleepTasks==0 && SMARTS.activeTasks>0)
     {
         for (i=SMARTS.getTotalTasks()-1; i >= 0 ; --i)
-            if (SMARTS.getStatus(i) == SUSPENDED)
+            if (SMARTS.getStatus(i) == SUSPENDED &&
+                SMARTS.getDidRunInCycle(i) == 0)
             {
                 cprintf("\ntask %c  is suspended",SMARTS.getName(i)) ;
                 SMARTS.setDeadlock();

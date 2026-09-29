@@ -42,12 +42,23 @@ void Parallelism::externalFunctions(void interrupt(*timerInterruptHandler)(...),
         schedCopy[i] = contextSched.stack[i];
 }
 
-// Declare a one-shot task using the provided framework context.
-int Parallelism::declareTask(void far* code, char name)
+// Part 1: initialize the period, deadline counter, and requested cycle count.
+int Parallelism::declareTask(void far* code, char name, int period, int numOfPeriods)
 {
     if (totalTasks < MaxTask - 1)
     {
         context[totalTasks].declare(code, userTaskEnd, name);
+
+        context[totalTasks].period = period;
+
+        context[totalTasks].remainingTime = period;
+
+        context[totalTasks].numOfPeriod = numOfPeriods;
+
+        context[totalTasks].numOfPeriodRemaining = numOfPeriods;
+
+        context[totalTasks].didRunInCycle = 0;
+
         totalTasks++;
         activeTasks++;
         return true;
@@ -305,28 +316,83 @@ void Parallelism::getSchedStack(unsigned& StackSeg, unsigned& StackPtr)
     StackPtr = contextSched.stackPtr;
 }
 
-// Update framework sleep timers.
+// Part 1: check cycle deadlines and reactivate tasks at period boundaries.
+// Preserve the baseline getch()/exit(1) path on a missed deadline.
 void Parallelism::handleTimers()
 {
     for (int i = totalTasks - 1; i >= 0; --i)
     {
+        if (context[i].numOfPeriodRemaining == 0)
+            continue;
+
         if (getStatus(i) == SLEEP)
         {
             sleepDecr(i);
             if (getStatus(i) == READY)
                 --sleepTasks;
         }
+
+        context[i].remainingTime--;
+
+        if (context[i].remainingTime == 0)
+        {
+
+            if (context[i].didRunInCycle == 0)
+            {
+                cout << "\nERROR: task ";
+                cout << context[i].name;
+                cout << " missed deadline";
+                cout << "\nPress any key to exit...";
+
+                getch();
+                exit(1);
+            }
+
+            context[i].numOfPeriodRemaining--;
+
+            if (context[i].numOfPeriodRemaining == 0)
+            {
+                context[i].status = NOT_ACTIVE;
+                activeTasks--;
+            }
+            else
+            {
+
+                context[i].reDeclare();
+            }
+        }
     }
 }
 
-// Retire a completed one-shot task.
+// Complete this cycle and wait for the period boundary without retiring the task.
 void Parallelism::taskEnd()
 {
-    SMARTS.setCurrentNotActive();
+
+    SMARTS.markCurrentTaskRan();
+    context[currentTask].status = NOT_ACTIVE;
+
     SMARTS.callScheduler();
 }
 
+// Part 1: record completion of the current cycle.
+void Parallelism::markCurrentTaskRan()
+{
+    context[currentTask].didRunInCycle = 1;
+}
+int Parallelism::getRemainingTime(int taskNum)
+{
+    return context[taskNum].remainingTime;
+}
 
+int Parallelism::getDidRunInCycle(int taskNum)
+{
+    return context[taskNum].didRunInCycle;
+}
+
+int Parallelism::getPeriod(int taskNum)
+{
+    return context[taskNum].period;
+}
 
 Task::Task()
 {
@@ -346,9 +412,12 @@ Task::Task()
     currentPriority = priority = 0;
 }
 
-// Initialize the provided task context.
+// Save entry points used both for initial execution and periodic reactivation.
 void Task::declare(void far* code, void far* userTaskEnd, char name)
 {
+    taskCode = code;
+    taskEndCode = userTaskEnd;
+
     stack[MaxStack - 5] = FP_OFF(code);
     stack[MaxStack - 4] = FP_SEG(code);
     stack[MaxStack - 3] = _FLAGS;
@@ -379,4 +448,32 @@ void Task::sleepDecr()
         if (!sleepCount)
             status = READY;
     }
+}
+// Part 1: rebuild the task stack and reset timing state for the next cycle.
+void Task::reDeclare()
+{
+    stack[MaxStack - 14] = _BP;
+    stack[MaxStack - 13] = _DI;
+    stack[MaxStack - 12] = _SI;
+    stack[MaxStack - 11] = _DS;
+    stack[MaxStack - 10] = _ES;
+    stack[MaxStack - 9] = _DX;
+    stack[MaxStack - 8] = _CX;
+    stack[MaxStack - 7] = _BX;
+    stack[MaxStack - 6] = _AX;
+
+    stack[MaxStack - 5] = FP_OFF(taskCode);
+    stack[MaxStack - 4] = FP_SEG(taskCode);
+    stack[MaxStack - 3] = _FLAGS;
+    stack[MaxStack - 2] = FP_OFF(taskEndCode);
+    stack[MaxStack - 1] = FP_SEG(taskEndCode);
+
+    stackSeg = FP_SEG(&stack[MaxStack - 14]);
+    stackPtr = FP_OFF(&stack[MaxStack - 14]);
+
+    remainingTime = period;
+
+    didRunInCycle = 0;
+
+    status = READY;
 }
