@@ -1,4 +1,4 @@
-# Manual scenarios: RMS
+# Manual scenarios: synchronization dependencies
 
 Build `scheduling_test.cpp`. Select `SCHEDULING_SCENARIO` and
 `SCHEDULING_POLICY` in the source or compiler settings and rebuild.

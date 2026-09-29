@@ -7,7 +7,6 @@ Parallelism SMARTS;
 static unsigned StackSegAct, StackPtrAct;
 
 // Handle hardware ticks and software scheduling requests.
-// Baseline framework snapshot; deferred switching is added separately.
 void far interrupt timerInterruptHandler(...)
 
 {
@@ -33,6 +32,12 @@ void far interrupt timerInterruptHandler(...)
         asm    mov    ax,StackSegAct;
         asm    mov    ss,ax
         asm    mov    sp,StackPtrAct
+    }
+    else
+    {
+        // Switch when this task next permits it.
+        SMARTS.setEndOfTimeSlice();
+        ++SMARTS.TScount;
     }
 
 }

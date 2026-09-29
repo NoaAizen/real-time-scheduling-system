@@ -1,7 +1,7 @@
-# Real Time Scheduling System: RMS
+# Real Time Scheduling System: synchronization dependencies
 
-Rate Monotonic Scheduling with base priorities derived from task periods.
-A shorter period means a higher priority; selection uses current priority.
+Shared dependency integration: periodic RMS scheduling with per-task
+context-switch control and deferred scheduling requests.
 
 ## Attribution
 
@@ -12,21 +12,21 @@ Round Robin is provided framework code, not a project implementation.
 
 ## Branch scope and dependencies
 
-Inherits periodic tasks and the framework. EDF, mutexes, inheritance,
-and per-task context-switch enhancements are not included.
+Combines the RMS and context-switch branches. This internal merge
+provides the scheduling and switching support required by the mutex scenario.
+EDF, mutexes, inversion experiments, and inheritance are not included.
 
 This is a reconstructed feature demonstration, not a claim about the original
 development order. The complete public project remains on `main` at `db11cde`.
 
-Intended comparison base: `5d0b927647048986cbb60b73b9a804b8e9e846f1`.
+Intended comparison base: `0cf690e354f39cc9d121353a2fa62e5b0e31c8b2`.
 
 ```text
-git diff 5d0b927647048986cbb60b73b9a804b8e9e846f1...HEAD
+git diff 0cf690e354f39cc9d121353a2fa62e5b0e31c8b2...HEAD
 ```
 
-Source provenance: period-based priority initialization, current-priority access, RMS, and
-equal/harmonic-period configurations from `a4d43e1`. The Part 2 archive
-import and unrelated changes from that commit are excluded.
+Source provenance: the reconstructed RMS and context-switch branches, preserving their
+feature-specific changes and shared framework ancestry.
 
 ## Structure and build
 
