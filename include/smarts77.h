@@ -171,6 +171,21 @@ int roundRobin();
 int RMS();
 
 
+// Part 2 mutual exclusion without priority inheritance.
+class Mutex
+{
+private:
+    int value;
+    int owner;
+    int waitingTasks[MaxTask];
+    int waitingCount;
+public:
+    Mutex();
+    void Acquire();
+    void Release();
+    int getHighestPriorityTask();
+};
+
 extern Parallelism SMARTS;
 
 #endif

@@ -1,7 +1,7 @@
-# Real Time Scheduling System: synchronization dependencies
+# Real Time Scheduling System: mutex synchronization
 
-Shared dependency integration: periodic RMS scheduling with per-task
-context-switch control and deferred scheduling requests.
+Mutex ownership, blocking, priority-ordered waiters, and ownership transfer
+on release, without priority inheritance.
 
 ## Attribution
 
@@ -12,21 +12,22 @@ Round Robin is provided framework code, not a project implementation.
 
 ## Branch scope and dependencies
 
-Combines the RMS and context-switch branches. This internal merge
-provides the scheduling and switching support required by the mutex scenario.
-EDF, mutexes, inversion experiments, and inheritance are not included.
+Inherits periodic RMS scheduling, suspension/resumption, and per-task
+context-switch control with deferred switching. Mutex operations suppress
+switching while updating internal state; the critical section itself can
+be preempted. EDF is not included.
 
 This is a reconstructed feature demonstration, not a claim about the original
 development order. The complete public project remains on `main` at `db11cde`.
 
-Intended comparison base: `0cf690e354f39cc9d121353a2fa62e5b0e31c8b2`.
+Intended comparison base: `8274c11c6328f2603b6c068113784c47ddadde73`.
 
 ```text
-git diff 0cf690e354f39cc9d121353a2fa62e5b0e31c8b2...HEAD
+git diff 8274c11c6328f2603b6c068113784c47ddadde73...HEAD
 ```
 
-Source provenance: the reconstructed RMS and context-switch branches, preserving their
-feature-specific changes and shared framework ancestry.
+Source provenance: mutex declaration and implementation from `2db718d`, with the
+consolidated RMS mutex scenario from `db11cde`.
 
 ## Structure and build
 

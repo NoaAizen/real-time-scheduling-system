@@ -1,17 +1,12 @@
-# Manual scenarios: synchronization dependencies
+# Manual scenarios: mutex synchronization
 
-Build `scheduling_test.cpp`. Select `SCHEDULING_SCENARIO` and
-`SCHEDULING_POLICY` in the source or compiler settings and rebuild.
-Default: `SCENARIO_RMS_HARMONIC_PERIODS` with `RMS`.
-Available policies: `roundRobin`, `RMS`.
+Build `mutex_test.cpp` to exercise RMS mutex serialization. Tasks A/B/C
+have periods 400/401/402 timer ticks and run three cycles each.
+The mutex selects blocked waiters by current priority and transfers ownership
+on release. There is no inheritance option on this branch.
 
-| Scenario | Periods A / B / C (timer ticks) | Cycles per task |
-| --- | --- | --- |
-| `SCENARIO_SHORT_DEADLINES` | 100 / 150 / 200 | 3 |
-| `SCENARIO_BALANCED` | 7000 / 5000 / 9000 | 3 |
-| `SCENARIO_RMS_EQUAL_PERIODS` | 1000 / 1000 / 1000 | 3 |
-| `SCENARIO_RMS_HARMONIC_PERIODS` | 5000 / 10000 / 20000 | 5 |
-
+The inherited `scheduling_test.cpp` supports `roundRobin` and `RMS`; its
+default is `SCENARIO_RMS_HARMONIC_PERIODS` with `RMS`.
 
 Use a compatible 16-bit DOS/Turbo C++ toolchain, with `include/` on the header
 search path. Link the sources in `src/` with exactly one selected scenario
