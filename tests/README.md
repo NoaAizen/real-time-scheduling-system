@@ -1,12 +1,15 @@
-# Manual scenarios: mutex synchronization
+# Manual scenarios: priority inversion
 
-Build `mutex_test.cpp` to exercise RMS mutex serialization. Tasks A/B/C
-have periods 400/401/402 timer ticks and run three cycles each.
-The mutex selects blocked waiters by current priority and transfers ownership
-on release. There is no inheritance option on this branch.
+Build `priority_inversion_test.cpp`. Set `INVERSION_SCENARIO` to
+`ONE_RESOURCE` (default) or `TWO_RESOURCES`, then rebuild. Events arrange for
+low-priority tasks to own the resources before higher-priority tasks contend.
+One-resource periods C/B/A are 400/401/402; two-resource periods H/M/L/X/N/Z
+are 400 through 405. Each task has one cycle. Output goes to
+`priority_inversion_test.txt` or `two_resources_test.txt`.
 
-The inherited `scheduling_test.cpp` supports `roundRobin` and `RMS`; its
-default is `SCENARIO_RMS_HARMONIC_PERIODS` with `RMS`.
+This branch has no inheritance implementation or toggle.
+The inherited mutex and scheduling scenarios remain available; build each
+separately. Scheduling policies are `roundRobin` and `RMS`.
 
 Use a compatible 16-bit DOS/Turbo C++ toolchain, with `include/` on the header
 search path. Link the sources in `src/` with exactly one selected scenario

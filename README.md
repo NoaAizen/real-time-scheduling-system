@@ -1,7 +1,7 @@
-# Real Time Scheduling System: mutex synchronization
+# Real Time Scheduling System: priority inversion
 
-Mutex ownership, blocking, priority-ordered waiters, and ownership transfer
-on release, without priority inheritance.
+One- and two-resource priority-inversion experiments without priority
+inheritance, using Events for ordering and RMS for priority selection.
 
 ## Attribution
 
@@ -12,22 +12,21 @@ Round Robin is provided framework code, not a project implementation.
 
 ## Branch scope and dependencies
 
-Inherits periodic RMS scheduling, suspension/resumption, and per-task
-context-switch control with deferred switching. Mutex operations suppress
-switching while updating internal state; the critical section itself can
-be preempted. EDF is not included.
+Inherits mutexes and their periodic RMS/context-switch dependencies.
+Events come from the provided framework. EDF and inheritance are excluded.
 
 This is a reconstructed feature demonstration, not a claim about the original
 development order. The complete public project remains on `main` at `db11cde`.
 
-Intended comparison base: `8274c11c6328f2603b6c068113784c47ddadde73`.
+Intended comparison base: `6cfcbfb6b1f8f1bd1f096317adaa26baced578d3`.
 
 ```text
-git diff 8274c11c6328f2603b6c068113784c47ddadde73...HEAD
+git diff 6cfcbfb6b1f8f1bd1f096317adaa26baced578d3...HEAD
 ```
 
-Source provenance: mutex declaration and implementation from `2db718d`, with the
-consolidated RMS mutex scenario from `db11cde`.
+Source provenance: inversion experiments from `d2ecbff`, using the consolidated scenario
+layout and preserved workload-yield behavior from `db11cde`. The
+inheritance constructor and toggle are deliberately not imported.
 
 ## Structure and build
 
