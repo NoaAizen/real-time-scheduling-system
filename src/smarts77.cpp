@@ -59,6 +59,10 @@ int Parallelism::declareTask(void far* code, char name, int period, int numOfPer
 
         context[totalTasks].didRunInCycle = 0;
 
+        // A shorter period has a higher RMS priority.
+        context[totalTasks].priority = period;
+        context[totalTasks].currentPriority = period;
+
         totalTasks++;
         activeTasks++;
         return true;
@@ -392,6 +396,11 @@ int Parallelism::getDidRunInCycle(int taskNum)
 int Parallelism::getPeriod(int taskNum)
 {
     return context[taskNum].period;
+}
+
+int Parallelism::getCurrentPriority(int taskNum)
+{
+    return context[taskNum].currentPriority;
 }
 
 Task::Task()

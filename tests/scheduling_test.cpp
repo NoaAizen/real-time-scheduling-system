@@ -3,12 +3,14 @@
 // Manual DOS scenarios; runtime expectations are unverified.
 #define SCENARIO_SHORT_DEADLINES 1
 #define SCENARIO_BALANCED 3
+#define SCENARIO_RMS_EQUAL_PERIODS 4
+#define SCENARIO_RMS_HARMONIC_PERIODS 5
 
 #ifndef SCHEDULING_SCENARIO
-#define SCHEDULING_SCENARIO SCENARIO_BALANCED
+#define SCHEDULING_SCENARIO SCENARIO_RMS_HARMONIC_PERIODS
 #endif
 #ifndef SCHEDULING_POLICY
-#define SCHEDULING_POLICY roundRobin
+#define SCHEDULING_POLICY RMS
 #endif
 
 void a()
@@ -58,6 +60,14 @@ void main()
     SMARTS.declareTask(a, 'A', 7000, 3);
     SMARTS.declareTask(b, 'B', 5000, 3);
     SMARTS.declareTask(c, 'C', 9000, 3);
+#elif SCHEDULING_SCENARIO == SCENARIO_RMS_EQUAL_PERIODS
+    SMARTS.declareTask(a, 'A', 1000, 3);
+    SMARTS.declareTask(b, 'B', 1000, 3);
+    SMARTS.declareTask(c, 'C', 1000, 3);
+#elif SCHEDULING_SCENARIO == SCENARIO_RMS_HARMONIC_PERIODS
+    SMARTS.declareTask(a, 'A', 5000, 5);
+    SMARTS.declareTask(b, 'B', 10000, 5);
+    SMARTS.declareTask(c, 'C', 20000, 5);
 #else
 #error Unsupported SCHEDULING_SCENARIO for this branch
 #endif

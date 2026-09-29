@@ -154,6 +154,7 @@ public:
     int getRemainingTime(int taskNum);
     int getDidRunInCycle(int taskNum);
     int getPeriod(int taskNum);
+    int getCurrentPriority(int taskNum);
 };
 
 extern unsigned getTimerClocks();
@@ -164,6 +165,9 @@ void myTaskEnd();
 
 // Provided SMARTS77 scheduling policy.
 int roundRobin();
+
+// Select the READY task with the highest current RMS priority.
+int RMS();
 
 
 extern Parallelism SMARTS;

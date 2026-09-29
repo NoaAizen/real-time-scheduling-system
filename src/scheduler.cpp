@@ -18,3 +18,21 @@ int roundRobin()
         nextTask = SMARTS.getTotalTasks();
     return nextTask;
 }
+
+// Select the READY task with the highest current RMS priority.
+int RMS()
+{
+    int best = SMARTS.getTotalTasks();
+    int minPriority = MAXINT;
+
+    for (int i = 0; i < SMARTS.getTotalTasks(); i++)
+    {
+        if (SMARTS.getStatus(i) == READY &&
+            SMARTS.getCurrentPriority(i) < minPriority)
+        {
+            minPriority = SMARTS.getCurrentPriority(i);
+            best = i;
+        }
+    }
+    return best;
+}

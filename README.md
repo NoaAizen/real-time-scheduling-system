@@ -1,7 +1,7 @@
-# Real Time Scheduling System: periodic tasks
+# Real Time Scheduling System: RMS
 
-Periodic tasks, deadline accounting, finite execution cycles, and reactivation
-at period boundaries, using the provided Round Robin scheduler.
+Rate Monotonic Scheduling with base priorities derived from task periods.
+A shorter period means a higher priority; selection uses current priority.
 
 ## Attribution
 
@@ -12,21 +12,21 @@ Round Robin is provided framework code, not a project implementation.
 
 ## Branch scope and dependencies
 
-Requires only the reconstructed framework reference. EDF, RMS, mutexes,
-and per-task switching enhancements are not included.
+Inherits periodic tasks and the framework. EDF, mutexes, inheritance,
+and per-task context-switch enhancements are not included.
 
 This is a reconstructed feature demonstration, not a claim about the original
 development order. The complete public project remains on `main` at `db11cde`.
 
-Intended comparison base: `ea0a6c85a6ad95d196d2976bb9eb5a8823c4ab11`.
+Intended comparison base: `5d0b927647048986cbb60b73b9a804b8e9e846f1`.
 
 ```text
-git diff ea0a6c85a6ad95d196d2976bb9eb5a8823c4ab11...HEAD
+git diff 5d0b927647048986cbb60b73b9a804b8e9e846f1...HEAD
 ```
 
-Source provenance: periodic runtime and lifecycle correction from `0fe2d4c`; `getPeriod()`
-from `a4d43e1`; periodic deadlock eligibility from `13b6ee2`; workload
-configurations from `91231fb` and consolidated workloads from `db11cde`.
+Source provenance: period-based priority initialization, current-priority access, RMS, and
+equal/harmonic-period configurations from `a4d43e1`. The Part 2 archive
+import and unrelated changes from that commit are excluded.
 
 ## Structure and build
 

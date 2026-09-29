@@ -1,14 +1,16 @@
-# Manual scenarios: periodic tasks
+# Manual scenarios: RMS
 
 Build `scheduling_test.cpp`. Select `SCHEDULING_SCENARIO` and
 `SCHEDULING_POLICY` in the source or compiler settings and rebuild.
-Default: `SCENARIO_BALANCED` with `roundRobin`.
-Available policies: `roundRobin`.
+Default: `SCENARIO_RMS_HARMONIC_PERIODS` with `RMS`.
+Available policies: `roundRobin`, `RMS`.
 
 | Scenario | Periods A / B / C (timer ticks) | Cycles per task |
 | --- | --- | --- |
 | `SCENARIO_SHORT_DEADLINES` | 100 / 150 / 200 | 3 |
 | `SCENARIO_BALANCED` | 7000 / 5000 / 9000 | 3 |
+| `SCENARIO_RMS_EQUAL_PERIODS` | 1000 / 1000 / 1000 | 3 |
+| `SCENARIO_RMS_HARMONIC_PERIODS` | 5000 / 10000 / 20000 | 5 |
 
 
 Use a compatible 16-bit DOS/Turbo C++ toolchain, with `include/` on the header
