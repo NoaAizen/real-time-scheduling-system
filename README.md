@@ -1,7 +1,8 @@
-# Real Time Scheduling System: framework reference
+# Real Time Scheduling System: context-switch control
 
-Reconstructed reference containing the provided SMARTS77 framework and
-Round Robin, with one-shot task completion and no periodic scheduling.
+Per-task context-switch permission and deferred scheduling requests.
+Interrupts record a pending request while switching is disabled; re-enabling
+switching services that request.
 
 ## Attribution
 
@@ -12,20 +13,21 @@ Round Robin is provided framework code, not a project implementation.
 
 ## Branch scope and dependencies
 
-This internal baseline supplies task contexts, interrupts, Events, sleeping,
-Round Robin, and global context-switch controls. Feature additions are separate.
+Requires only the framework task contexts and interrupt machinery.
+Periodic tasks, EDF, RMS, mutexes, and inheritance are not included.
 
 This is a reconstructed feature demonstration, not a claim about the original
 development order. The complete public project remains on `main` at `db11cde`.
 
-Intended comparison base: `ece9e26`.
+Intended comparison base: `ea0a6c85a6ad95d196d2976bb9eb5a8823c4ab11`.
 
 ```text
-git diff ece9e26...HEAD
+git diff ea0a6c85a6ad95d196d2976bb9eb5a8823c4ab11...HEAD
 ```
 
-Source provenance: `ece9e26` and the framework portions of `0fe2d4c`; periodic and EDF additions
-are excluded from the reconstructed source tree.
+Source provenance: per-task flag, control methods, initialization, and deferred interrupt
+handling from `13b6ee2`. Its periodic-aware deadlock condition belongs
+to the periodic branch and is excluded here.
 
 ## Structure and build
 

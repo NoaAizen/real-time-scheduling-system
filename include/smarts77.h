@@ -53,6 +53,8 @@ public:
     taskStatus status;
     Event* expectedEvent;
     int sleepCount;
+    // Each task preserves its own context-switch permission.
+    int contextSwitchFlag;
 
     Task();
     void declare(void far* code, void far* taskEnd, char name);
@@ -73,7 +75,6 @@ private:
     int currentTask;
     int deadlock;
     int progInt;
-    int contextSwitchFlag;
     int endOfTimeSlice;
 
     void interrupt(*timerInterruptHandler)(...);

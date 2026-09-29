@@ -1,8 +1,9 @@
-# Manual scenarios: framework reference
+# Manual scenarios: context-switch control
 
-This framework-only reference contains no scenario entry point. Feature
-branches add the relevant scenarios. One-shot tasks use
-`SMARTS.declareTask(taskFunction, taskName)`.
+This branch isolates runtime control methods and has no standalone scenario.
+A one-shot application can call `contextSwitchOff()`, request scheduling with
+`callScheduler()`, and then use `contextSwitchOn()` to service the deferred
+request. It uses the two-argument `declareTask(taskFunction, taskName)` API.
 
 Use a compatible 16-bit DOS/Turbo C++ toolchain, with `include/` on the header
 search path. Link the sources in `src/` with exactly one selected scenario
