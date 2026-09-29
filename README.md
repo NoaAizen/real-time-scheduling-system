@@ -1,7 +1,7 @@
-# Real Time Scheduling System: priority inversion
+# Real Time Scheduling System: direct priority inheritance
 
-One- and two-resource priority-inversion experiments without priority
-inheritance, using Events for ordering and RMS for priority selection.
+Optional direct priority inheritance for mutex owners, with the same
+one- and two-resource experiments selectable with or without inheritance.
 
 ## Attribution
 
@@ -12,21 +12,23 @@ Round Robin is provided framework code, not a project implementation.
 
 ## Branch scope and dependencies
 
-Inherits mutexes and their periodic RMS/context-switch dependencies.
-Events come from the provided framework. EDF and inheritance are excluded.
+Inherits the inversion experiments, mutexes, RMS, periodic tasks, and
+context-switch support. Adds mutable-priority access and restores base
+priority on release. Recursive or transitive inheritance is not implemented.
+EDF is not included.
 
 This is a reconstructed feature demonstration, not a claim about the original
 development order. The complete public project remains on `main` at `db11cde`.
 
-Intended comparison base: `6cfcbfb6b1f8f1bd1f096317adaa26baced578d3`.
+Intended comparison base: `568d66048d2137dffb13d418a138dece28e25313`.
 
 ```text
-git diff 6cfcbfb6b1f8f1bd1f096317adaa26baced578d3...HEAD
+git diff 568d66048d2137dffb13d418a138dece28e25313...HEAD
 ```
 
-Source provenance: inversion experiments from `d2ecbff`, using the consolidated scenario
-layout and preserved workload-yield behavior from `db11cde`. The
-inheritance constructor and toggle are deliberately not imported.
+Source provenance: inheritance declaration and mutex changes from `a66ba5c`; required
+priority accessors from `a4d43e1`; consolidated comparison experiments
+from `db11cde`.
 
 ## Structure and build
 

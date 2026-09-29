@@ -402,6 +402,16 @@ int Parallelism::getCurrentPriority(int taskNum)
     return context[taskNum].currentPriority;
 }
 
+int Parallelism::getPriority(int taskNum)
+{
+    return context[taskNum].priority;
+}
+
+void Parallelism::setCurrentPriority(int taskNum, int priority)
+{
+    context[taskNum].currentPriority = priority;
+}
+
 Task::Task()
 {
     stack[MaxStack - 14] = _BP;

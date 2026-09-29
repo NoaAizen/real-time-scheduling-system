@@ -156,6 +156,8 @@ public:
     int getDidRunInCycle(int taskNum);
     int getPeriod(int taskNum);
     int getCurrentPriority(int taskNum);
+    int getPriority(int taskNum);
+    void setCurrentPriority(int taskNum, int priority);
 };
 
 extern unsigned getTimerClocks();
@@ -171,7 +173,7 @@ int roundRobin();
 int RMS();
 
 
-// Part 2 mutual exclusion without priority inheritance.
+// Part 2 mutual exclusion with optional direct priority inheritance.
 class Mutex
 {
 private:
@@ -179,8 +181,10 @@ private:
     int owner;
     int waitingTasks[MaxTask];
     int waitingCount;
+    int inheritanceEnabled;
 public:
     Mutex();
+    Mutex(int inheritance);
     void Acquire();
     void Release();
     int getHighestPriorityTask();

@@ -5,9 +5,12 @@
 #ifndef INVERSION_SCENARIO
 #define INVERSION_SCENARIO ONE_RESOURCE
 #endif
+#ifndef USE_INHERITANCE
+#define USE_INHERITANCE 0
+#endif
 
-Mutex resource1;
-Mutex resource2;
+Mutex resource1(USE_INHERITANCE);
+Mutex resource2(USE_INHERITANCE);
 Event wakeHigh1, wakeLow1, wakeHigh2, wakeMiddle1, wakeMiddle2;
 FILE* output;
 
@@ -84,7 +87,8 @@ void main()
     if (output == NULL)
         return;
 
-    fprintf(output, "Priority inversion scenario without inheritance\n");
+    fprintf(output, "Priority inversion scenario; inheritance = %d\n",
+        USE_INHERITANCE);
     SMARTS.externalFunctions(timerInterruptHandler, scheduler, myTaskEnd, RMS);
 
 #if INVERSION_SCENARIO == TWO_RESOURCES
