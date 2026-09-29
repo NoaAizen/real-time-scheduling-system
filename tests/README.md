@@ -1,13 +1,14 @@
-# Manual scenarios: periodic tasks
+# Manual scenarios: EDF
 
 Build `scheduling_test.cpp`. Select `SCHEDULING_SCENARIO` and
 `SCHEDULING_POLICY` in the source or compiler settings and rebuild.
-Default: `SCENARIO_BALANCED` with `roundRobin`.
-Available policies: `roundRobin`.
+Default: `SCENARIO_EDF_VS_RR` with `EDF`.
+Available policies: `roundRobin`, `EDF`.
 
 | Scenario | Periods A / B / C (timer ticks) | Cycles per task |
 | --- | --- | --- |
 | `SCENARIO_SHORT_DEADLINES` | 100 / 150 / 200 | 3 |
+| `SCENARIO_EDF_VS_RR` | 3000 / 9000 / 12000 | 3 |
 | `SCENARIO_BALANCED` | 7000 / 5000 / 9000 | 3 |
 
 

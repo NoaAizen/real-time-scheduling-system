@@ -2,13 +2,14 @@
 
 // Manual DOS scenarios; runtime expectations are unverified.
 #define SCENARIO_SHORT_DEADLINES 1
+#define SCENARIO_EDF_VS_RR 2
 #define SCENARIO_BALANCED 3
 
 #ifndef SCHEDULING_SCENARIO
-#define SCHEDULING_SCENARIO SCENARIO_BALANCED
+#define SCHEDULING_SCENARIO SCENARIO_EDF_VS_RR
 #endif
 #ifndef SCHEDULING_POLICY
-#define SCHEDULING_POLICY roundRobin
+#define SCHEDULING_POLICY EDF
 #endif
 
 void a()
@@ -54,6 +55,10 @@ void main()
     SMARTS.declareTask(a, 'A', 100, 3);
     SMARTS.declareTask(b, 'B', 150, 3);
     SMARTS.declareTask(c, 'C', 200, 3);
+#elif SCHEDULING_SCENARIO == SCENARIO_EDF_VS_RR
+    SMARTS.declareTask(a, 'A', 3000, 3);
+    SMARTS.declareTask(b, 'B', 9000, 3);
+    SMARTS.declareTask(c, 'C', 12000, 3);
 #elif SCHEDULING_SCENARIO == SCENARIO_BALANCED
     SMARTS.declareTask(a, 'A', 7000, 3);
     SMARTS.declareTask(b, 'B', 5000, 3);

@@ -18,3 +18,28 @@ int roundRobin()
         nextTask = SMARTS.getTotalTasks();
     return nextTask;
 }
+
+// Select the READY task with the earliest remaining deadline.
+int EDF()
+{
+
+    int best = SMARTS.getTotalTasks();
+
+    int min = MAXINT;
+
+    for (int i = 0; i < SMARTS.getTotalTasks(); i++)
+    {
+
+        if (SMARTS.getStatus(i) == READY)
+        {
+
+            if (SMARTS.getRemainingTime(i) < min)
+            {
+                min = SMARTS.getRemainingTime(i);
+
+                best = i;
+            }
+        }
+    }
+    return best;
+}
