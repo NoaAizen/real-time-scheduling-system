@@ -62,3 +62,10 @@ and compiler-specific assembly. The scenarios were not re-executed in the
 original 16-bit DOS environment during repository cleanup. Scenario outcomes
 remain unverified; this project is an academic scheduler exercise, not a
 production RTOS.
+
+Earlier course versions of the project were built and run in Borland/Turbo C
+(June 2026). Their saved outputs (see
+[`tests/legacy-outputs/`](tests/legacy-outputs/README.md)) show an execution
+order consistent with priority inheritance: the mutex owner finishes before the
+medium-priority task runs, and the high-priority task acquires the mutex next.
+These outputs come from the course version, not from this cleaned-up code.

@@ -1,0 +1,45 @@
+=== SYSTEM OUTPUT: PART B TWO INDEPENDENT INVERSIONS ===
+
+[Task 4 - Lowest P4] Status: RUNNING | Step: Started.
+
+[Task 4 - Lowest P4] Status: INSIDE MUTEX 2 | Action: Triggering Task 2...
+
+[Task 2 - Low P2] Status: RUNNING | Action: Acquiring mutex1...
+
+[Task 2 - Low P2] Status: INSIDE MUTEX 1 | Action: Triggering T1, M1, T3, M2...
+
+[Task 1 - High P1] Status: RUNNING | Action: Trying to acquire mutex1...
+
+[Task 2 - Low P2] Status: INSIDE MUTEX 1 | Step: Working inside Critical Section:
+2222222222222222222222222222222222222222
+[Task 2 - Low P2] Status: RUNNING | Action: mutex1.release()...
+
+[Task 2 - Low P2] Status: RUNNING | Step: Finished.
+
+[Task 1 - High P1] Status: INSIDE MUTEX 1 | Working...
+1111111111111111111111111111111111111111
+[Task 1 - High P1] Status: RUNNING | Action: mutex1.release()...
+
+[Task 1 - High P1] Status: RUNNING | Step: Finished.
+
+[Task M1 - Intermediate 1] Status: RUNNING | Step: Long work (Inversion 1):
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+[Task M1 - Intermediate 1] Status: RUNNING | Step: Finished.
+
+[Task 3 - High P3] Status: RUNNING | Action: Trying to acquire mutex2...
+
+[Task 4 - Lowest P4] Status: INSIDE MUTEX 2 | Step: Working inside Critical Section:
+4444444444444444444444444444444444444444
+[Task 4 - Lowest P4] Status: RUNNING | Action: mutex2.release()...
+
+[Task 4 - Lowest P4] Status: RUNNING | Step: Finished.
+
+[Task 3 - High P3] Status: INSIDE MUTEX 2 | Working...
+3333333333333333333333333333333333333333
+[Task 3 - High P3] Status: RUNNING | Action: mutex2.release()...
+
+[Task 3 - High P3] Status: RUNNING | Step: Finished.
+
+[Task M2 - Intermediate 2] Status: RUNNING | Step: Long work (Inversion 2):
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+[Task M2 - Intermediate 2] Status: RUNNING | Step: Finished.
